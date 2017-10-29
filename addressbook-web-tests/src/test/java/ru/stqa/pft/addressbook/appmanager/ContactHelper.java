@@ -22,7 +22,25 @@ public class ContactHelper extends BaseHelper {
     type(By.name("mobile"),contactData.getMobile());
   }
 
-  public void goToContactCreation() {
-    click(By.linkText("add new"));
+
+  public void selectContact() {
+    click(By.name("selected[]"));
+  }
+  public void deleteSelectedContact() {
+    click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
+  }
+  public void submitDeletion () {
+    clickButton();
+  }
+
+  public void initContactModification() {
+    click(By.xpath("//table[@id='maintable']//img[@title='Edit']"));
+  }
+
+  public void submitContactModification() {
+    click(By.name("update"));
+  }
+  public void returnToHomePage() {
+    click(By.linkText("home page"));
   }
 }

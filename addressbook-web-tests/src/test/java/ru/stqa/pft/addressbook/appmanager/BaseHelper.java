@@ -28,4 +28,8 @@ public class BaseHelper {
       return false;
     }
   }
+
+  protected void clickButton() {
+    wd.switchTo().alert().accept();
+  }
 }
