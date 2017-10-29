@@ -72,14 +72,6 @@ public class TestBase {
     wd.quit();
   }
 
-  protected void deleteSelectedGroup() {
-    wd.findElement(By.name("delete")).click();
-  }
-
-  protected void selectGroup() {
-    wd.findElement(By.name("selected[]")).click();
-  }
-
   protected void goToHomePage() {
     wd.findElement(By.linkText("home page")).click();
   }
