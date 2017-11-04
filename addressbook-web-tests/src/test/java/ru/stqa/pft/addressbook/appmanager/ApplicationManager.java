@@ -27,7 +27,7 @@ public class ApplicationManager {
     if (browser == BrowserType.FIREFOX) {
       wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
     } else if (browser == BrowserType.CHROME) {
-      wd = new ChromeDriver ();
+      wd = new ChromeDriver();
     } else if (browser == BrowserType.IE) {
       wd = new InternetExplorerDriver();
     }

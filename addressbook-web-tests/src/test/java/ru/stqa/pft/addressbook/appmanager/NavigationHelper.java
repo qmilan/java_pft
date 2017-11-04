@@ -18,6 +18,7 @@ public class NavigationHelper extends BaseHelper {
     }
     click(By.linkText("add new"));
   }
+
   public void goToGroupPage() {
     if (isElementPresent(By.tagName("h1"))
             && wd.findElement(By.tagName("h1")).getText().equals("Groups")
@@ -26,6 +27,7 @@ public class NavigationHelper extends BaseHelper {
     }
     click(By.linkText("groups"));
   }
+
   public void goToHomePage() {
     if (isElementPresent(By.id("maintable"))) {
       return;

@@ -14,23 +14,23 @@ public class ContactHelper extends BaseHelper {
   private By locator;
 
   public ContactHelper(WebDriver wd) {
-   super(wd);
+    super(wd);
   }
 
   public void submitContactCreation() {
     click(By.name("submit"));
   }
 
-  public void fillContactCreation(ContactData contactData,boolean creation) {
-    type(By.name("firstname"),contactData.getFirstname());
-    type(By.name("lastname"),contactData.getLastname());
-    type(By.name("address"),contactData.getAddress());
-    type(By.name("email"),contactData.getEmail());
-    type(By.name("mobile"),contactData.getMobile());
+  public void fillContactCreation(ContactData contactData, boolean creation) {
+    type(By.name("firstname"), contactData.getFirstname());
+    type(By.name("lastname"), contactData.getLastname());
+    type(By.name("address"), contactData.getAddress());
+    type(By.name("email"), contactData.getEmail());
+    type(By.name("mobile"), contactData.getMobile());
     if (creation) {
       new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-    }else {
-      Assert.assertFalse(isElementPresent (By.name("new_group")));
+    } else {
+      Assert.assertFalse(isElementPresent(By.name("new_group")));
     }
   }
 
@@ -38,10 +38,12 @@ public class ContactHelper extends BaseHelper {
   public void selectContact() {
     click(By.name("selected[]"));
   }
+
   public void deleteSelectedContact() {
     click(By.xpath("//div[@id='content']/form[2]/div[2]/input"));
   }
-  public void submitDeletion () {
+
+  public void submitDeletion() {
     clickButton();
   }
 
@@ -52,12 +54,13 @@ public class ContactHelper extends BaseHelper {
   public void submitContactModification() {
     click(By.name("update"));
   }
+
   public void returnToHomePage() {
     click(By.linkText("home page"));
   }
 
   public void createContact(ContactData contact, boolean creation) {
-    fillContactCreation(contact,creation);
+    fillContactCreation(contact, creation);
     submitContactCreation();
     returnToHomePage();
   }

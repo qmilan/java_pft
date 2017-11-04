@@ -19,14 +19,15 @@ public class BaseHelper {
 
   protected void type(By locator, String text) {
     click(locator);
-    if (text!=null) {
+    if (text != null) {
       String existingTest = wd.findElement(locator).getAttribute("value");
-      if (! text.equals(existingTest)) {
+      if (!text.equals(existingTest)) {
         wd.findElement(locator).clear();
         wd.findElement(locator).sendKeys(text);
       }
     }
   }
+
   public boolean isAlertPresent() {
     try {
       wd.switchTo().alert();
@@ -41,11 +42,11 @@ public class BaseHelper {
   }
 
   protected boolean isElementPresent(By locator) {
-   try {
-     wd.findElement(locator);
-     return  true;
-   }catch (NoSuchElementException ex) {
-     return false;
-   }
+    try {
+      wd.findElement(locator);
+      return true;
+    } catch (NoSuchElementException ex) {
+      return false;
+    }
   }
 }
