@@ -13,12 +13,17 @@ public class ContactDeletion extends TestBase {
   public void ContactDeletion() {
     app.getNavigationHelper().goToHomePage();
     if (!app.getContactHelper().isThereAContact()) {
-      app.getNavigationHelper().goToGroupPage();
-      if (!app.getGroupHelper().isThereAGroup()) {
-        app.getGroupHelper().createGroup(new GroupData("test1", null, null));
+      app.getNavigationHelper().goToContactCreationPage();
+      ContactData contact = new ContactData("test1", "test2", "test3", "test4@test.com", "89991234567", "test51");
+      List<GroupData> lists = app.getGroupHelper().CheckboxGroupList();
+      String group = contact.getGroup();
+      //проверка содержится ли group  в lists
+      if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
+        app.getNavigationHelper().goToGroupPage();
+        app.getGroupHelper().createGroup(new GroupData(contact.getGroup(), null, null));
       }
       app.getNavigationHelper().goToContactCreationPage();
-      app.getContactHelper().createContact(new ContactData("test1", "test2", "test3", "test4@test.com", "89991234567", "test1"), true);
+      app.getContactHelper().createContact(contact, true);
     }
     List<ContactData> before = app.getContactHelper().getContactList();
     app.getContactHelper().selectContact(before.size() - 1);
