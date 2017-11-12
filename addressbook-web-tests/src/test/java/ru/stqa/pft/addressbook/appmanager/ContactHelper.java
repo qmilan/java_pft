@@ -1,10 +1,8 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -88,8 +86,18 @@ public class ContactHelper extends BaseHelper {
         ContactData contact = new ContactData(id,firstname,lastname,null,null,null,null);
         contacts.add(contact);
       }
-      return contacts;//заполнение списка
-//    }
- //   return elements;
+      return contacts;
+
+  }
+
+  public List<GroupData> CheckboxGroupList() {
+    List<GroupData> grouplist = new ArrayList<GroupData>();
+    List<WebElement> elements = wd.findElements(By.xpath("//select[5]/option"));
+    for (WebElement element: elements){
+      String name = element.getText();
+      GroupData group = new GroupData(name,null,null);
+      grouplist.add(group);
+    }
+    return grouplist;
   }
 }

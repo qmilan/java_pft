@@ -14,23 +14,28 @@ public class ContactCreationTest extends TestBase {
 
   @Test
   public void testContactCreationTest() {
-    app.getNavigationHelper().goToGroupPage();
-    if (!app.getGroupHelper().isThereAGroup()) {
-      app.getGroupHelper().createGroup(new GroupData("test1", null, null));
-    }
     app.getNavigationHelper().goToHomePage();
-    List<ContactData> before =app.getContactHelper().getContactList();
+    List<ContactData> before = app.getContactHelper().getContactList();
     app.getNavigationHelper().goToContactCreationPage();
-    ContactData contact = new ContactData("test2", "test2", "test3", "test4@test.com", "89991234567", "test1");
+    ContactData contact = new ContactData("test2", "test2", "test3", "test4@test.com", "89991234567", "test1211");
+    //получение списка групп со страницы создани контакта
+    List<GroupData> lists = app.getContactHelper().CheckboxGroupList();
+    String group = contact.getGroup();
+    //проверка содержится ли group  в lists
+    if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
+      app.getNavigationHelper().goToGroupPage();
+      app.getGroupHelper().createGroup(new GroupData(contact.getGroup(), null, null));
+    }
+    app.getNavigationHelper().goToContactCreationPage();
     app.getContactHelper().createContact(contact, true);
-    List<ContactData> after =app.getContactHelper().getContactList();
-    Assert.assertEquals(after.size(),before.size()+1);
+    List<ContactData> after = app.getContactHelper().getContactList();
+    Assert.assertEquals(after.size(), before.size() + 1);
 //    contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(),o2.getId())).get().getId());
     before.add(contact);
-    Comparator<? super ContactData> byId = (c1,c2)->Integer.compare(c1.getId(),c2.getId());
+    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
     before.sort(byId);
     after.sort(byId);
-    Assert.assertEquals(before,after);
+    Assert.assertEquals(before, after);
   }
 
 }

@@ -17,18 +17,18 @@ public class ContactDeletion extends TestBase {
       if (!app.getGroupHelper().isThereAGroup()) {
         app.getGroupHelper().createGroup(new GroupData("test1", null, null));
       }
-            app.getNavigationHelper().goToContactCreationPage();
+      app.getNavigationHelper().goToContactCreationPage();
       app.getContactHelper().createContact(new ContactData("test1", "test2", "test3", "test4@test.com", "89991234567", "test1"), true);
     }
-    List<ContactData> before =app.getContactHelper().getContactList();
-    app.getContactHelper().selectContact(before.size()-1);
+    List<ContactData> before = app.getContactHelper().getContactList();
+    app.getContactHelper().selectContact(before.size() - 1);
     app.getContactHelper().deleteSelectedContact();
     app.getContactHelper().submitDeletion();
     app.getNavigationHelper().goToHomePage();
-    List<ContactData> after =app.getContactHelper().getContactList();
-    Assert.assertEquals(after.size(),before.size()-1);
-    before.remove(before.size()-1);
-    Assert.assertEquals(before,after);
-   }
+    List<ContactData> after = app.getContactHelper().getContactList();
+    Assert.assertEquals(after.size(), before.size() - 1);
+    before.remove(before.size() - 1);
+    Assert.assertEquals(before, after);
+  }
 
 }
