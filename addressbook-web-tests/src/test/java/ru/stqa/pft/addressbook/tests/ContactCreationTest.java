@@ -17,9 +17,9 @@ public class ContactCreationTest extends TestBase {
     app.getNavigationHelper().goToHomePage();
     List<ContactData> before = app.getContactHelper().getContactList();
     app.getNavigationHelper().goToContactCreationPage();
-    ContactData contact = new ContactData("test2", "test2", "test3", "test4@test.com", "89991234567", "test1211");
+    ContactData contact = new ContactData("test2", "test2", "test3", "test4@test.com", "89991234567", "test211");
     //получение списка групп со страницы создани контакта
-    List<GroupData> lists = app.getContactHelper().CheckboxGroupList();
+    List<GroupData> lists = app.getGroupHelper().CheckboxGroupList();
     String group = contact.getGroup();
     //проверка содержится ли group  в lists
     if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {

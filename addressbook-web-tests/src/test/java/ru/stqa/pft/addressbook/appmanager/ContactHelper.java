@@ -89,15 +89,4 @@ public class ContactHelper extends BaseHelper {
       return contacts;
 
   }
-
-  public List<GroupData> CheckboxGroupList() {
-    List<GroupData> grouplist = new ArrayList<GroupData>();
-    List<WebElement> elements = wd.findElements(By.xpath("//select[5]/option"));
-    for (WebElement element: elements){
-      String name = element.getText();
-      GroupData group = new GroupData(name,null,null);
-      grouplist.add(group);
-    }
-    return grouplist;
-  }
 }
