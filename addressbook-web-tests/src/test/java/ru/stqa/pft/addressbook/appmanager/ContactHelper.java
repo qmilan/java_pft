@@ -49,8 +49,8 @@ public class ContactHelper extends BaseHelper {
     clickButton();
   }
 
-  public void initContactModification() {
-    click(By.xpath("//table[@id='maintable']//img[@title='Edit']"));
+  public void initContactModification(int index) {
+    wd.findElements(By.xpath("//table[@id='maintable']//img[@title='Edit']")).get(index).click();
   }
 
   public void submitContactModification() {
