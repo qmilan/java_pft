@@ -15,7 +15,8 @@ public class ContactCreationTest extends TestBase {
     app.goTo().homePage();
     List<ContactData> before = app.contact().list();
     app.goTo().contactCreationPage();
-    ContactData contact = new ContactData("test2", "test2", "test3", "test4@test.com", "89991234567", "test211");
+    ContactData contact = new ContactData().withFirstname("test2").withLastname("test2").withAddress("test3")
+            .withEmail("test4@test.com").withMobile("89991234567").withGroup("test211");
     //получение списка групп со страницы создани контакта
     List<GroupData> lists = app.group().dropdownList();
     String group = contact.getGroup();
