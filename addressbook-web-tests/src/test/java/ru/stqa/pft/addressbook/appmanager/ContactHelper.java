@@ -78,15 +78,15 @@ public class ContactHelper extends BaseHelper {
   public List<ContactData> getContactList() {
     List<ContactData> contacts = new ArrayList<ContactData>(); //создание списка
     List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
-    for (int i=0;i<elements.size();i++){
+    for (int i = 0; i < elements.size(); i++) {
       List<WebElement> cells = elements.get(i).findElements(By.tagName("td"));
-      String firstname =  cells.get(2).getText();
-      String lastname =  cells.get(1).getText();
+      String firstname = cells.get(2).getText();
+      String lastname = cells.get(1).getText();
       int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
-        ContactData contact = new ContactData(id,firstname,lastname,null,null,null,null);
-        contacts.add(contact);
-      }
-      return contacts;
+      ContactData contact = new ContactData(id, firstname, lastname, null, null, null, null);
+      contacts.add(contact);
+    }
+    return contacts;
 
   }
 }
