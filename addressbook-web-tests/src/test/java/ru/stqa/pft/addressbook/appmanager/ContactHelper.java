@@ -92,7 +92,7 @@ public class ContactHelper extends BaseHelper {
   public int getContactCount() {
     return wd.findElements(By.name("selected[]")).size();
   }
-  
+
   public Set<ContactData> all() {
     Set<ContactData> contacts = new HashSet<ContactData>(); //создание списка
     List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
