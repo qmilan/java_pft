@@ -6,7 +6,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
+import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -93,16 +95,16 @@ public class ContactHelper extends BaseHelper {
     return wd.findElements(By.name("selected[]")).size();
   }
 
-  public Set<ContactData> all() {
-    Set<ContactData> contacts = new HashSet<ContactData>(); //создание списка
+  public Contacts all() {
+//    Set<ContactData> contacts = new HashSet<ContactData>(); //создание списка
+    Contacts contacts = new Contacts();
     List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
     for (int i = 0; i < elements.size(); i++) {
       List<WebElement> cells = elements.get(i).findElements(By.tagName("td"));
       String firstname = cells.get(2).getText();
       String lastname = cells.get(1).getText();
       int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
-      ContactData contact = new ContactData().withId(id).withFirstname(firstname).withLastname(lastname);
-      contacts.add(contact);
+      contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
     }
     return contacts;
   }
