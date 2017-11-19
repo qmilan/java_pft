@@ -23,7 +23,7 @@ public class ContactModificationTest extends TestBase {
       //проверка содержится ли group  в lists
       if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
         app.goTo().groupPage();
-        app.group().create(new GroupData(contact.getGroup(), null, null));
+        app.group().create(new GroupData().withName(contact.getGroup()));
       }
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
