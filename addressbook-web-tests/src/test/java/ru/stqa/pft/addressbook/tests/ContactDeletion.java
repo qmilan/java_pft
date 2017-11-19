@@ -14,13 +14,14 @@ public class ContactDeletion extends TestBase {
     app.goTo().homePage();
     if (app.contact().list().size()==0) {
       app.goTo().contactCreationPage();
-      ContactData contact = new ContactData("test1", "test2", "test3", "test4@test.com", "89991234567", "test51");
+      ContactData contact = new ContactData().withFirstname("test1").withLastname("test2").withAddress("test3")
+              .withEmail("test4@test.com").withMobile("89991234567").withGroup("test51");
       List<GroupData> lists = app.group().dropdownList();
       String group = contact.getGroup();
       //проверка содержится ли group  в lists
       if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
         app.goTo().groupPage();
-        app.group().create(new GroupData(contact.getGroup(), null, null));
+        app.group().create(new GroupData().withName(contact.getGroup()));
       }
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
