@@ -103,11 +103,24 @@ public class ContactHelper extends BaseHelper {
       List<WebElement> cells = elements.get(i).findElements(By.tagName("td"));
       String firstname = cells.get(2).getText();
       String lastname = cells.get(1).getText();
+      String[] phones = cells.get(5).getText().split("\n");
       int id = Integer.parseInt(cells.get(0).findElement(By.tagName("input")).getAttribute("value"));
-      contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname));
+      contacts.add(new ContactData().withId(id).withFirstname(firstname).withLastname(lastname).withHome(phones[0])
+              .withMobile(phones[1]).withWork(phones[2]));
     }
     return contacts;
   }
 
 
+  public ContactData infoFromEfitForm(ContactData contact) {
+    initContactModificationById(contact.getId());
+    String firsname = wd.findElement(By.name("firstname")).getAttribute("value");
+    String lastname = wd.findElement(By.name("lastname")).getAttribute("value");
+    String home = wd.findElement(By.name("home")).getAttribute("value");
+    String mobile = wd.findElement(By.name("mobile")).getAttribute("value");
+    String work = wd.findElement(By.name("work")).getAttribute("value");
+    wd.navigate().back();
+    return new ContactData().withId(contact.getId()).withFirstname(firsname).withLastname(lastname).withHome(home)
+            .withMobile(mobile).withWork(work);
+  }
 }
