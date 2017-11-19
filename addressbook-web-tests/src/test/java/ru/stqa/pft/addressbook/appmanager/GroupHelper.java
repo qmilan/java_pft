@@ -82,8 +82,7 @@ public class GroupHelper extends BaseHelper {
     for (WebElement element : elements) {
       String name = element.getText();
       int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
-      GroupData group = new GroupData(id, name, null, null);
-      groups.add(group);
+      groups.add(new GroupData().withId(id).withName(name));
     }
     return groups;
   }
@@ -93,7 +92,7 @@ public class GroupHelper extends BaseHelper {
     List<WebElement> elements = wd.findElements(By.xpath("//select[5]/option"));
     for (WebElement element : elements) {
       String name = element.getText();
-      GroupData group = new GroupData(name, null, null);
+      GroupData group = new GroupData().withName(name);
       grouplist.add(group);
     }
     return grouplist;
