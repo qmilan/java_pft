@@ -9,12 +9,13 @@ import ru.stqa.pft.addressbook.model.GroupData;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ContactModificationTest extends TestBase {
   @BeforeMethod
   public void ensurePrecondition(){
     app.goTo().homePage();
-    if (app.contact().list().size()==0) {
+    if (app.contact().all().size()==0) {
       app.goTo().contactCreationPage();
       ContactData contact = new ContactData().withFirstname("test1").withLastname("test2").withAddress("test3")
               .withEmail("test4@test.com").withMobile("89991234567").withGroup("test451");
@@ -31,20 +32,16 @@ public class ContactModificationTest extends TestBase {
   }
   @Test
   public void testContactModificationTest() {
-    List<ContactData> before = app.contact().list();
-    int index = before.size() - 1;
-    ContactData contact = new ContactData().withId(before.get(index).getId()).withFirstname("test2").withLastname("test2")
+    Set<ContactData> before = app.contact().all();
+    ContactData modifiedContact = before.iterator().next();
+    ContactData contact = new ContactData().withId(modifiedContact.getId()).withFirstname("test2").withLastname("test2")
             .withAddress("test3").withEmail("test4@test.com").withMobile("89991234567");
-    app.contact().modify(index, contact);
-    List<ContactData> after = app.contact().list();
+    app.contact().modify(contact);
+    Set<ContactData> after = app.contact().all();
     Assert.assertEquals(after.size(), before.size());
-    before.remove(index);
+    before.remove(modifiedContact);
     before.add(contact);
     Assert.assertEquals(new HashSet<Object>(before), new HashSet<Object>(after));
-
-    Comparator<? super ContactData> byId = (c1, c2) -> Integer.compare(c1.getId(), c2.getId());
-    before.sort(byId);
-    after.sort(byId);
     Assert.assertEquals(before, after);
   }
 
