@@ -13,30 +13,30 @@ import java.util.List;
 public class ContactModificationTest extends TestBase {
   @BeforeMethod
   public void ensurePrecondition(){
-    app.getNavigationHelper().goToHomePage();
-    if (!app.getContactHelper().isThereAContact()) {
-      app.getNavigationHelper().goToContactCreationPage();
+    app.goTo().homePage();
+    if (app.contact().list().size()==0) {
+      app.goTo().contactCreationPage();
       ContactData contact = new ContactData("test1", "test2",
               "test3", "test4@test.com", "89991234567", "test451");
-      List<GroupData> lists = app.getGroupHelper().CheckboxGroupList();
+      List<GroupData> lists = app.group().dropdownList();
       String group = contact.getGroup();
       //проверка содержится ли group  в lists
       if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
-        app.getNavigationHelper().goToGroupPage();
-        app.getGroupHelper().createGroup(new GroupData(contact.getGroup(), null, null));
+        app.goTo().groupPage();
+        app.group().create(new GroupData(contact.getGroup(), null, null));
       }
-      app.getNavigationHelper().goToContactCreationPage();
-      app.getContactHelper().createContact(contact, true);
+      app.goTo().contactCreationPage();
+      app.contact().create(contact, true);
     }
   }
   @Test
   public void testContactModificationTest() {
-    List<ContactData> before = app.getContactHelper().getContactList();
+    List<ContactData> before = app.contact().list();
     int index = before.size() - 1;
     ContactData contact = new ContactData(before.get(index).getId(), "test2",
             "test2", "test3", "test4@test.com", "89991234567", null);
-    app.getContactHelper().modifyContact(index, contact);
-    List<ContactData> after = app.getContactHelper().getContactList();
+    app.contact().modify(index, contact);
+    List<ContactData> after = app.contact().list();
     Assert.assertEquals(after.size(), before.size());
     before.remove(index);
     before.add(contact);
