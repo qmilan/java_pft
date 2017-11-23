@@ -3,11 +3,13 @@ package ru.stqa.pft.addressbook.tests;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -20,11 +22,11 @@ public class ContactCreationTest extends TestBase {
   @Test
   public void testContactCreationTest() {
     app.goTo().homePage();
-//    Set<ContactData> before = app.contact().all();
     Contacts before = app.contact().all();
     app.goTo().contactCreationPage();
+    File photo = new File("src/test/resources/linux.png");
     ContactData contact = new ContactData().withFirstname("test2").withLastname("test2").withAddress("test3")
-            .withEmail("test4@test.com").withMobile("89991234567").withGroup("test211");
+            .withEmail("test4@test.com").withMobile("89991234567").withGroup("test211").withPhoto(photo);
     List<GroupData> lists = app.group().dropdownList();
     String group = contact.getGroup();
     if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
@@ -35,9 +37,8 @@ public class ContactCreationTest extends TestBase {
     app.contact().create(contact, true);
     Contacts after = app.contact().all();
     assertThat(after.size(), equalTo(before.size() + 1));
-//    contact.setId(after.stream().max((o1, o2) -> Integer.compare(o1.getId(),o2.getId())).get().getId());
     assertThat(after, equalTo(before.withAdded
-            (contact.withId(after.stream().mapToInt((c)-> c.getId()).max().getAsInt()))));
+            (contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
   }
 
 }
