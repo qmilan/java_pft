@@ -25,17 +25,4 @@
     <group>test 1</group>
     <photo>src\test\resources\linux.png</photo>
   </contact>
-  <contact>
-    <firstname>firtsname 2</firstname>
-    <lastname>lastname 2</lastname>
-    <address>address_2</address>
-    <email>email_2@.ru</email>
-    <email2>email2_2@.ru</email2>
-    <email3>email3_2@.ru</email3>
-    <mobile>8912-34-2</mobile>
-    <home>12-34-2</home>
-    <work>12-34-52</work>
-    <group>test 2</group>
-    <photo>src\test\resources\linux.png</photo>
-  </contact>
 </list>

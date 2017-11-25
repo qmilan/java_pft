@@ -27,6 +27,7 @@ public class ContactDataGenerator {
   public String format;
 
   public static void main(String[] args) throws IOException {
+    System.out.println(new File (".").getAbsolutePath());
     ContactDataGenerator generator = new ContactDataGenerator();
     JCommander jCommander = new JCommander(generator);
     try {
