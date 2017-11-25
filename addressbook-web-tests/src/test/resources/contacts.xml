@@ -1,3 +1,41 @@
-lastname 0;firtsname 0;email_0@.ru;email2_0@.ru;email3_0@.ru;address_0;12-34-0;8912-34-0;12-34-50;test 0
-lastname 1;firtsname 1;email_1@.ru;email2_1@.ru;email3_1@.ru;address_1;12-34-1;8912-34-1;12-34-51;test 1
-lastname 2;firtsname 2;email_2@.ru;email2_2@.ru;email3_2@.ru;address_2;12-34-2;8912-34-2;12-34-52;test 2
+<list>
+  <contact>
+    <firstname>firtsname 0</firstname>
+    <lastname>lastname 0</lastname>
+    <address>address_0</address>
+    <email>email_0@.ru</email>
+    <email2>email2_0@.ru</email2>
+    <email3>email3_0@.ru</email3>
+    <mobile>8912-34-0</mobile>
+    <home>12-34-0</home>
+    <work>12-34-50</work>
+    <group>test 0</group>
+    <photo>src\test\resources\linux.png</photo>
+  </contact>
+  <contact>
+    <firstname>firtsname 1</firstname>
+    <lastname>lastname 1</lastname>
+    <address>address_1</address>
+    <email>email_1@.ru</email>
+    <email2>email2_1@.ru</email2>
+    <email3>email3_1@.ru</email3>
+    <mobile>8912-34-1</mobile>
+    <home>12-34-1</home>
+    <work>12-34-51</work>
+    <group>test 1</group>
+    <photo>src\test\resources\linux.png</photo>
+  </contact>
+  <contact>
+    <firstname>firtsname 2</firstname>
+    <lastname>lastname 2</lastname>
+    <address>address_2</address>
+    <email>email_2@.ru</email>
+    <email2>email2_2@.ru</email2>
+    <email3>email3_2@.ru</email3>
+    <mobile>8912-34-2</mobile>
+    <home>12-34-2</home>
+    <work>12-34-52</work>
+    <group>test 2</group>
+    <photo>src\test\resources\linux.png</photo>
+  </contact>
+</list>
