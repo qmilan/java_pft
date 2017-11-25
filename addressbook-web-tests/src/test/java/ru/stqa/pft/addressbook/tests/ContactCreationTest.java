@@ -10,7 +10,7 @@ import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 
-import java.io.File;
+import java.io.*;
 import java.util.*;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -18,26 +18,27 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTest extends TestBase {
   public File photo = new File("src/test/resources/linux.png");
+
   @DataProvider
-  public Iterator<Object[]> validContacts () {
+  public Iterator<Object[]> validContacts() throws IOException {
     List<Object[]> list = new ArrayList<Object[]>();
-    list.add(new Object[] {new ContactData().withFirstname("test1").withLastname("test1").withAddress("test1")
-            .withEmail("test1@test.com").withMobile("89991234567").withGroup("test1").withPhoto(photo)});
-    list.add(new Object[] {new ContactData().withFirstname("test2").withLastname("test2").withAddress("test2")
-            .withEmail("test2@test.com").withMobile("89991234567").withGroup("test2").withPhoto(photo)});
-    list.add(new Object[] {new ContactData().withFirstname("test3").withLastname("test3").withAddress("test3")
-            .withEmail("test3@test.com").withMobile("89991234567").withGroup("test3").withPhoto(photo)});
+    BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")));
+    String line = reader.readLine();
+    while (line != null) {
+      String[] split = line.split(";");
+      list.add(new Object[]{new ContactData().withLastname(split[0]).withFirstname(split[1]).withEmail(split[2])
+              .withEmail2(split[3]).withEmail3(split[4]).withAddress(split[5]).withHome(split[6])
+              .withMobile(split[7]).withWork(split[8]).withGroup(split[9]).withPhoto(photo)});
+      line = reader.readLine();
+    }
     return list.iterator();
   }
 
-  @Test (dataProvider = "validContacts")
+  @Test(dataProvider = "validContacts")
   public void testContactCreationTest(ContactData contact) {
     app.goTo().homePage();
     Contacts before = app.contact().all();
     app.goTo().contactCreationPage();
-  //  File photo = new File("src/test/resources/linux.png");
- //   ContactData contact = new ContactData().withFirstname("test2").withLastname("test2").withAddress("test3")
-//            .withEmail("test4@test.com").withMobile("89991234567").withGroup("test211").withPhoto(photo);
     List<GroupData> lists = app.group().dropdownList();
     String group = contact.getGroup();
     if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
