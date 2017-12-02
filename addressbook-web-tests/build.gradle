@@ -9,6 +9,7 @@ dependencies {
     compile 'org.hamcrest:java-hamcrest:2.0.0.0'
     compile 'com.beust:jcommander:1.72'
     compile 'com.thoughtworks.xstream:xstream:1.4.10'
+    compile 'mysql:mysql-connector-java:5.1.45'
 }
 task testGroups(type: Test) {
     useTestNG {
