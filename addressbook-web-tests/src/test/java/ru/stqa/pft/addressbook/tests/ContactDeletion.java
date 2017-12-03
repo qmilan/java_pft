@@ -1,8 +1,5 @@
 package ru.stqa.pft.addressbook.tests;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -10,18 +7,17 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
-import java.util.List;
-import java.util.Set;
-
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactDeletion extends TestBase {
   @BeforeMethod
-  public void ensurePrecondition(){
-    if (app.db().contacts().size()==0) {
+  public void ensurePrecondition() {
+    if (app.db().contacts().size() == 0) {
       ContactData contact = new ContactData().withFirstname("test1").withLastname("test2").withAddress("test3")
-              .withEmail("test4@test.com").withMobile("89991234567").withGroup("test51");
+              .withEmail("test@test.com").withEmail2("test1@test.com")
+              .withEmail3("test2@test.com").withMobile("89501234567").withHome("123445")
+              .withWork("3412111").withGroup("test1");
       Groups lists = app.db().groups();
       String group = contact.getGroup();
       //проверка содержится ли group  в lists
@@ -33,6 +29,7 @@ public class ContactDeletion extends TestBase {
       app.contact().create(contact, true);
     }
   }
+
   @Test
   public void ContactDeletion() {
     Contacts before = app.db().contacts();
@@ -43,7 +40,6 @@ public class ContactDeletion extends TestBase {
     assertThat(after.size(), equalTo(before.size() - 1));
     assertThat(after, equalTo(before.withOut(deletedContact)));
   }
-
 
 
 }

@@ -198,8 +198,7 @@ public class ContactData {
     if (email3 != null ? !email3.equals(that.email3) : that.email3 != null) return false;
     if (mobile != null ? !mobile.equals(that.mobile) : that.mobile != null) return false;
     if (home != null ? !home.equals(that.home) : that.home != null) return false;
-    if (work != null ? !work.equals(that.work) : that.work != null) return false;
-    return group != null ? group.equals(that.group) : that.group == null;
+    return work != null ? work.equals(that.work) : that.work == null;
   }
 
   @Override
@@ -214,7 +213,6 @@ public class ContactData {
     result = 31 * result + (mobile != null ? mobile.hashCode() : 0);
     result = 31 * result + (home != null ? home.hashCode() : 0);
     result = 31 * result + (work != null ? work.hashCode() : 0);
-    result = 31 * result + (group != null ? group.hashCode() : 0);
     return result;
   }
 
