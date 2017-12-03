@@ -13,18 +13,23 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class ContactModificationTest extends TestBase {
   @BeforeMethod
   public void ensurePrecondition(){
-    if (app.db().contacts().size()==0) {
+    if (app.db().contacts().size() == 0) {
+      Groups beforegroup = app.db().groups();
+      if (beforegroup.size()==0){
+        app.goTo().groupPage();
+        app.group().create(new GroupData().withName("test1"));
+      }
+      Groups aftergroup = app.db().groups();
+      GroupData idGroups = aftergroup.iterator().next();
       ContactData contact = new ContactData().withFirstname("test1").withLastname("test2").withAddress("test3")
               .withEmail("test@test.com").withEmail2("test1@test.com")
               .withEmail3("test2@test.com").withMobile("89501234567").withHome("123445")
-              .withWork("3412111").withGroup("test1");
-      Groups lists = app.db().groups();
-      String group = contact.getGroup();
-      //проверка содержится ли group  в lists
-      if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
-        app.goTo().groupPage();
-        app.group().create(new GroupData().withName(contact.getGroup()));
-      }
+              .withWork("3412111").inGroup(idGroups);
+   //   String groupName = idGroups.getName();
+   //   if (!aftergroup.stream().anyMatch(g -> g.getName().equals(groupName))) {
+   //     app.goTo().groupPage();
+   //     app.group().create(new GroupData().withName(groupName));
+   //   }
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
     }

@@ -9,7 +9,7 @@
     <mobile>8912-34-0</mobile>
     <home>12-34-0</home>
     <work>12-34-50</work>
-    <group>test 0</group>
     <photo>src\test\resources\linux.png</photo>
+    <groups/>
   </contact>
 </list>

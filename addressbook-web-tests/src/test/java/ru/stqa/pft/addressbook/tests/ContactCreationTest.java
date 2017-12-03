@@ -1,6 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
 import com.thoughtworks.xstream.XStream;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -41,14 +42,20 @@ public class ContactCreationTest extends TestBase {
   @Test(dataProvider = "validContacts")
   public void testContactCreationTest(ContactData contact) {
     Contacts before = app.db().contacts();
-    Groups lists = app.db().groups();
-    String group = contact.getGroup();
-    if (!lists.stream().anyMatch(g -> g.getName().equals(group))) {
+    Groups beforegroup = app.db().groups();
+    if (beforegroup.size()==0){
       app.goTo().groupPage();
-      app.group().create(new GroupData().withName(contact.getGroup()));
+      app.group().create(new GroupData().withName("test1"));
     }
+    Groups aftergroup = app.db().groups();
+   // if (!listsgroup.stream().anyMatch(g -> g.getName().equals(contact.getGroups().iterator().next().getName()))) {
+ //   if (app.db().groups().size()==0){
+ //     app.goTo().groupPage();
+ //     app.group().create(new GroupData().withName(contact.getGroups().iterator().next().getName()));
+//    }
+    ContactData contactwithgroup = contact.inGroup(aftergroup.iterator().next());
     app.goTo().contactCreationPage();
-    app.contact().create(contact, true);
+    app.contact().create(contactwithgroup, true);
     Contacts after = app.db().contacts();
     assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(before.withAdded
