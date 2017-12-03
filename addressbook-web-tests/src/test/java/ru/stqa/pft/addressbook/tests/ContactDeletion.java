@@ -27,6 +27,7 @@ public class ContactDeletion extends TestBase {
       }
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
+      verifyContactListInUI();
     }
   }
 

@@ -34,6 +34,7 @@ public class ContactCreationTest extends TestBase {
       xstream.processAnnotations(ContactData.class);
       List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
       return contacts.stream().map((c) -> new Object[]{c}).collect(Collectors.toList()).iterator();
+
     }
   }
 
@@ -52,6 +53,7 @@ public class ContactCreationTest extends TestBase {
     assertThat(after.size(), equalTo(before.size() + 1));
     assertThat(after, equalTo(before.withAdded
             (contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+    verifyContactListInUI();
   }
 
 }
