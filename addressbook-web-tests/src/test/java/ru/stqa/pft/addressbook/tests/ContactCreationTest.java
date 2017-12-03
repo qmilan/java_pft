@@ -49,10 +49,6 @@ public class ContactCreationTest extends TestBase {
     }
     Groups aftergroup = app.db().groups();
    // if (!listsgroup.stream().anyMatch(g -> g.getName().equals(contact.getGroups().iterator().next().getName()))) {
- //   if (app.db().groups().size()==0){
- //     app.goTo().groupPage();
- //     app.group().create(new GroupData().withName(contact.getGroups().iterator().next().getName()));
-//    }
     ContactData contactwithgroup = contact.inGroup(aftergroup.iterator().next());
     app.goTo().contactCreationPage();
     app.contact().create(contactwithgroup, true);

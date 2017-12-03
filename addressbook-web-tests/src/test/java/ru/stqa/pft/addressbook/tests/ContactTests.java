@@ -27,12 +27,7 @@ public class ContactTests extends TestBase {
       GroupData idGroups = aftergroup.iterator().next();
       ContactData contact = new ContactData().withFirstname("test1").withLastname("test2").withAddress("test3")
               .withEmail("test4@test.com").withMobile("89991234567").inGroup(idGroups);
-  //    String groupName = idGroups.getName();
-      //проверка содержится ли group  в lists
     //  if (!listsGroupFromBD.stream().anyMatch(g -> g.getName().equals(groupName))) {
-    //    app.goTo().groupPage();
-   //     app.group().create(new GroupData().withName(groupName));
-   //   }
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
     }

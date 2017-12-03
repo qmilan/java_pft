@@ -25,11 +25,7 @@ public class ContactModificationTest extends TestBase {
               .withEmail("test@test.com").withEmail2("test1@test.com")
               .withEmail3("test2@test.com").withMobile("89501234567").withHome("123445")
               .withWork("3412111").inGroup(idGroups);
-   //   String groupName = idGroups.getName();
    //   if (!aftergroup.stream().anyMatch(g -> g.getName().equals(groupName))) {
-   //     app.goTo().groupPage();
-   //     app.group().create(new GroupData().withName(groupName));
-   //   }
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
     }
