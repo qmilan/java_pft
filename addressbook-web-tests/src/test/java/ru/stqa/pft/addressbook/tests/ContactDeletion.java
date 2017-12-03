@@ -27,7 +27,7 @@ public class ContactDeletion extends TestBase {
       }
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
-      verifyContactListInUI();
+
     }
   }
 
@@ -40,6 +40,7 @@ public class ContactDeletion extends TestBase {
     Contacts after = app.db().contacts();
     assertThat(after.size(), equalTo(before.size() - 1));
     assertThat(after, equalTo(before.withOut(deletedContact)));
+    verifyContactListInUI();
   }
 
 
