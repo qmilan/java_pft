@@ -144,4 +144,9 @@ public class ContactHelper extends BaseHelper {
     return new ContactData().withId(contact.getId()).withFirstname(firsname).withLastname(lastname).withHome(home)
             .withMobile(mobile).withAddress(address).withWork(work).withEmail(email).withEmail2(email2).withEmail3(email3);
   }
+
+  public void addToGroup() {
+    click(By.name("add"));
+  }
+
 }
