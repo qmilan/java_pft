@@ -53,10 +53,12 @@ public class AddContactInGroup extends TestBase {
     Set<Integer> setGroupsafter = Difference(afterSetGroups,beforeSetSelectedGroups);
       for ( Integer groups :  setGroupsafter ) {
         app.goTo().homePage();
+        app.contact().selectAllFromDropDown();
         app.contact().selectContactById(selectContact.getId());
         app.contact().selectGroupFromDropDown(String.valueOf(groups));
         app.contact().clickOnAdd();
-        app.contact().clickOnGoToGroup(groups);
+       // app.contact().clickOnGoToGroup(groups);
+
 
         System.out.println(groups);
 
