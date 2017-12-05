@@ -45,14 +45,22 @@ public class AddContactInGroup extends TestBase {
     Set<Integer> set2 = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
     Set<Integer> setGroups = Difference(set1,set2);
     System.out.println(setGroups);
-    if (setGroups.size()!=0) {
-      for ( Integer groups :  setGroups ) {
-          app.contact().selectContactById(selectContact.getId());
-          app.contact().selectGroupFromDropDown(String.valueOf(groups));
-          app.contact().clickOnAdd();
+    if (setGroups.size()==0) {
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("check"));
+      }
+    Set<Integer> set1after = app.db().groups().stream().map(g -> g.getId()).collect(Collectors.toSet());
+    Set<Integer> set2after = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
+    Set<Integer> setGroupsafter = Difference(set1after,set2after);
+      for ( Integer groups :  setGroupsafter ) {
+        app.goTo().homePage();
+        app.contact().selectContactById(selectContact.getId());
+        app.contact().selectGroupFromDropDown(String.valueOf(groups));
+        app.contact().clickOnAdd();
+        app.contact().clickOnGoToGroup(groups);
 
         System.out.println(groups);
-      }
+
     }
 
 

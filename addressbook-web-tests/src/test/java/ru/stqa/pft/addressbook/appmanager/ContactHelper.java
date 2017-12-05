@@ -56,6 +56,9 @@ public class ContactHelper extends BaseHelper {
   public void clickOnAdd() {
     click(By.name("add"));
   }
+  public void clickOnGoToGroup(int id) {
+    wd.findElement(By.xpath("//a[@href='./?group="+id+"']")).click();
+  }
 
   public void selectContact(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();
