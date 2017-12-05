@@ -41,17 +41,16 @@ public class AddContactInGroup extends TestBase {
     System.out.println(allGroups);
     System.out.println(contactGroups);
 
-    Set<Integer> set1 = allGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> set2 = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> setGroups = Difference(set1,set2);
+    Set<Integer> beforeSetGroups = allGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
+    Set<Integer> beforeSetSelectedGroups = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
+    Set<Integer> setGroups = Difference(beforeSetGroups,beforeSetSelectedGroups);
     System.out.println(setGroups);
     if (setGroups.size()==0) {
       app.goTo().groupPage();
       app.group().create(new GroupData().withName("check"));
       }
-    Set<Integer> set1after = app.db().groups().stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> set2after = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> setGroupsafter = Difference(set1after,set2after);
+    Set<Integer> afterSetGroups = app.db().groups().stream().map(g -> g.getId()).collect(Collectors.toSet());
+    Set<Integer> setGroupsafter = Difference(afterSetGroups,beforeSetSelectedGroups);
       for ( Integer groups :  setGroupsafter ) {
         app.goTo().homePage();
         app.contact().selectContactById(selectContact.getId());
