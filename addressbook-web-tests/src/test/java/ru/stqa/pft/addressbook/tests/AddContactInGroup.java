@@ -41,8 +41,8 @@ public class AddContactInGroup extends TestBase {
     Groups allGroups = app.db().groups();
     ContactData selectContact = allContacts.iterator().next();
     Groups contactGroups = selectContact.getGroups();
-    System.out.println(allGroups);
-    System.out.println(contactGroups);
+  //  System.out.println(allGroups);
+  //  System.out.println(contactGroups);
 
     Set<Integer> beforeSetGroups = allGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
     Set<Integer> beforeSetSelectedGroups = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
@@ -64,23 +64,16 @@ public class AddContactInGroup extends TestBase {
       //  System.out.println(groups);
     }
     Groups afterGroups = app.db().groups();
-      Set<Integer> setAfterGroups = afterGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-
-    System.out.println(setAfterGroups);
-   System.out.println(beforeSetSelectedGroups);
-    assertThat(setAfterGroups.size(), equalTo(beforeSetSelectedGroups.size() + 1));
-
-
-
-//
- //   Contacts contacts = new Contacts();
-//    List<WebElement> elements = wd.findElements(By.xpath("//tr[@name='entry']"));
-//    for (int i = 0; i < before.size(); i++) {
- //     List<WebElement> cells = elements.get(i).findElements(By.tagName("td"));
-//      String firstname = cells.get(2).getText();
-//    app.contact().selectContactById(selectContact.getId());
-//    app.contact().addToGroup();
+      for (ContactData all : allContacts){
+        if (all.getId()==selectContact.getId()){
+          Set<Integer> setAfterGroups = afterGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
+          System.out.println(setAfterGroups);
+          assertThat(setAfterGroups.size(), equalTo(beforeSetSelectedGroups.size() + setGroupsafter.size()));
+        }
+      }
   }
+
+
   public static Set<Integer> Difference(Set<Integer> set1, Set<Integer> set2) {
     Set<Integer> dbGroups = new HashSet<Integer>(set1);
     dbGroups.addAll(set2);
