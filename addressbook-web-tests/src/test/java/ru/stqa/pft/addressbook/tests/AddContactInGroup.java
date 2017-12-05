@@ -12,6 +12,9 @@ import ru.stqa.pft.addressbook.model.Groups;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 public class AddContactInGroup extends TestBase {
   @BeforeMethod
   public void ensurePrecondition() {
@@ -47,7 +50,7 @@ public class AddContactInGroup extends TestBase {
     System.out.println(setGroups);
     if (setGroups.size()==0) {
       app.goTo().groupPage();
-      app.group().create(new GroupData().withName("check"));
+      app.group().create(new GroupData().withName("Check"));
       }
     Set<Integer> afterSetGroups = app.db().groups().stream().map(g -> g.getId()).collect(Collectors.toSet());
     Set<Integer> setGroupsafter = Difference(afterSetGroups,beforeSetSelectedGroups);
@@ -58,11 +61,14 @@ public class AddContactInGroup extends TestBase {
         app.contact().selectGroupFromDropDown(String.valueOf(groups));
         app.contact().clickOnAdd();
        // app.contact().clickOnGoToGroup(groups);
-
-
-        System.out.println(groups);
-
+      //  System.out.println(groups);
     }
+    Groups afterGroups = app.db().groups();
+      Set<Integer> setAfterGroups = afterGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
+
+    System.out.println(setAfterGroups);
+   System.out.println(beforeSetSelectedGroups);
+    assertThat(setAfterGroups.size(), equalTo(beforeSetSelectedGroups.size() + 1));
 
 
 
