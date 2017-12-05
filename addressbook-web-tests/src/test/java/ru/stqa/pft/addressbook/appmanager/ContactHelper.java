@@ -49,6 +49,13 @@ public class ContactHelper extends BaseHelper {
     }
   }
 
+  public void selectGroupFromDropDown(String index) {
+    //wd.findElements(By.name("to_group")).get(index).click();
+    new Select(wd.findElement(By.name("to_group"))).selectByValue(index);
+  }
+  public void clickOnAdd() {
+    click(By.name("add"));
+  }
 
   public void selectContact(int index) {
     wd.findElements(By.name("selected[]")).get(index).click();

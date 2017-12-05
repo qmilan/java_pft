@@ -1,8 +1,7 @@
 package ru.stqa.pft.addressbook.tests;
 
-import com.google.common.collect.Sets;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
@@ -12,9 +11,6 @@ import ru.stqa.pft.addressbook.model.Groups;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.google.common.collect.Sets.intersection;
 
 public class AddContactInGroup extends TestBase {
   @BeforeMethod
@@ -44,24 +40,22 @@ public class AddContactInGroup extends TestBase {
     Groups contactGroups = selectContact.getGroups();
     System.out.println(allGroups);
     System.out.println(contactGroups);
-   // Set groupSet = allGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
 
     Set<Integer> set1 = allGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
     Set<Integer> set2 = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> intersection = symmetricDifference(set1,set2);
-    
-  //  Set<Integer> intersect = set1.stream().filter(set2::contains).collect(Collectors.toSet());
-   // Set<Integer> setC = intersection(set1, set2);
-   System.out.println(intersection);
+    Set<Integer> setGroups = Difference(set1,set2);
+    System.out.println(setGroups);
+    if (setGroups.size()!=0) {
+      for ( Integer groups :  setGroups ) {
+          app.contact().selectContactById(selectContact.getId());
+          app.contact().selectGroupFromDropDown(String.valueOf(groups));
+          app.contact().clickOnAdd();
 
-    //Set<Integer> intersection = Sets.intersection(Sets.newHashSet(set2), Sets.newHashSet(set1));
-  //  Set<Integer> union = Stream.concat(set1.stream(), set2.stream()).collect(Collectors.toSet());
-   // System.out.println(setC);
-   // System.out.println(union + " - " + intersect);
+        System.out.println(groups);
+      }
+    }
 
-    //for ( ContactData contact : (List<ContactData>) before ) {
-    //  Groups allGroups = contact.getGroups();
-   // }
+
 
 //
  //   Contacts contacts = new Contacts();
@@ -72,12 +66,12 @@ public class AddContactInGroup extends TestBase {
 //    app.contact().selectContactById(selectContact.getId());
 //    app.contact().addToGroup();
   }
-  public static Set<Integer> symmetricDifference(Set<Integer> set1, Set<Integer> set2) {
-    Set<Integer> symmetricDiff = new HashSet<Integer>(set1);
-    symmetricDiff.addAll(set2);
-    Set<Integer> tmp = new HashSet<Integer>(set1);
-    tmp.retainAll(set2);
-    symmetricDiff.removeAll(tmp);
-    return symmetricDiff;
+  public static Set<Integer> Difference(Set<Integer> set1, Set<Integer> set2) {
+    Set<Integer> dbGroups = new HashSet<Integer>(set1);
+    dbGroups.addAll(set2);
+    Set<Integer> groups = new HashSet<Integer>(set1);
+    groups.retainAll(set2);
+    dbGroups.removeAll(groups);
+    return dbGroups;
   }
 }
