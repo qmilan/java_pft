@@ -37,23 +37,22 @@ public class AddContactInGroup extends TestBase {
   }
   @Test
   public void testAddContactInGroup (){
-    Contacts allContacts = app.db().contacts();
-    Groups allGroups = app.db().groups();
-    ContactData selectContact = allContacts.iterator().next();
-    Groups contactGroups = selectContact.getGroups();
-  //  System.out.println(allGroups);
-  //  System.out.println(contactGroups);
+    Contacts beforeContacts = app.db().contacts();
+    Groups beforeGroups = app.db().groups();
 
-    Set<Integer> beforeSetGroups = allGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> beforeSetSelectedGroups = contactGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> setGroups = Difference(beforeSetGroups,beforeSetSelectedGroups);
-    System.out.println(setGroups);
-    if (setGroups.size()==0) {
+    ContactData selectContact = beforeContacts.iterator().next();
+    Groups groupsOfContact = selectContact.getGroups();
+
+    Set<Integer> beforeIdsGroups = beforeGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
+    Set<Integer> beforeIdsGroupsContact = groupsOfContact.stream().map(g -> g.getId()).collect(Collectors.toSet());
+    Set<Integer> diffGroups = Difference(beforeIdsGroups,beforeIdsGroupsContact);
+    System.out.println(diffGroups);
+    if (diffGroups.size()==0) {
       app.goTo().groupPage();
       app.group().create(new GroupData().withName("Check"));
       }
     Set<Integer> afterSetGroups = app.db().groups().stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> setGroupsafter = Difference(afterSetGroups,beforeSetSelectedGroups);
+    Set<Integer> setGroupsafter = Difference(afterSetGroups,beforeIdsGroupsContact);
       for ( Integer groups :  setGroupsafter ) {
         app.goTo().homePage();
         app.contact().selectAllFromDropDown();
@@ -64,11 +63,13 @@ public class AddContactInGroup extends TestBase {
       //  System.out.println(groups);
     }
     Groups afterGroups = app.db().groups();
-      for (ContactData all : allContacts){
+    Contacts afterContacts = app.db().contacts();
+      for (ContactData all : afterContacts){
         if (all.getId()==selectContact.getId()){
           Set<Integer> setAfterGroups = afterGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
           System.out.println(setAfterGroups);
-          assertThat(setAfterGroups.size(), equalTo(beforeSetSelectedGroups.size() + setGroupsafter.size()));
+          assertThat(setAfterGroups.size(), equalTo(beforeIdsGroupsContact.size() + setGroupsafter.size()));
+         // assertThat(afterGroups, equalTo(beforeGroups.withAdded()));
         }
       }
   }
