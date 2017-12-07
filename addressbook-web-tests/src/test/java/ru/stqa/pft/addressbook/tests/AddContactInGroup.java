@@ -16,16 +16,17 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class AddContactInGroup extends TestBase {
+
   @BeforeMethod
   public void ensurePrecondition() {
+    Groups beforegroup = app.db().groups();
+    if (beforegroup.size()==0){
+      app.goTo().groupPage();
+      app.group().create(new GroupData().withName("test1"));
+    }
+    Groups aftergroup = app.db().groups();
+    GroupData idGroups = aftergroup.iterator().next();
     if (app.db().contacts().size() == 0) {
-      Groups beforegroup = app.db().groups();
-      if (beforegroup.size()==0){
-        app.goTo().groupPage();
-        app.group().create(new GroupData().withName("test1"));
-      }
-      Groups aftergroup = app.db().groups();
-      GroupData idGroups = aftergroup.iterator().next();
       ContactData contact = new ContactData().withFirstname("test1").withLastname("test2").withAddress("test3")
               .withEmail("test@test.com").withEmail2("test1@test.com")
               .withEmail3("test2@test.com").withMobile("89501234567").withHome("123445")
@@ -58,7 +59,6 @@ public class AddContactInGroup extends TestBase {
     Groups afterDistinctionGroups= distinction(afterGroupBD,beforeGroupsContact);
       for (GroupData groups : afterDistinctionGroups) {
         app.goTo().homePage();
-       //app.contact().selectAllFromDropDown();
         app.contact().selectContactById(contactBefore.getId());
         app.contact().selectGroupFromDropDown(String.valueOf(groups.getId()));
         app.contact().clickOnAdd();
@@ -70,7 +70,7 @@ public class AddContactInGroup extends TestBase {
             .get();
     Groups afterGroupsContact = contactAfter.getGroups();
       beforeGroupsContact.addAll(afterDistinctionGroups);
-
+      assertThat(afterGroupsContact.size(),equalTo(beforeGroupsContact.size()));
       assertThat(afterGroupsContact,equalTo(beforeGroupsContact));
 
   }
