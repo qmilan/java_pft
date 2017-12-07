@@ -39,11 +39,11 @@ public class AddContactInGroup extends TestBase {
   @Test
   public void testAddContactInGroup (){
 
-    ContactData contactBefore = app.db().contacts().stream().sorted(Comparator.comparingInt(ContactData::getId)).findFirst().get();
-
+    ContactData contactBefore = app.db().contacts().iterator().next();
+    Integer id = contactBefore.getId();
+            //app.db().contacts().stream().sorted(Comparator.comparingInt(ContactData::getId)).findFirst().get();
     Contacts beforeContacts = app.db().contacts();
     Groups beforeGroupBD = app.db().groups();
-
     Groups beforeGroupsContact = contactBefore.getGroups();
     Groups beforeDistinctionGroups= distinction(beforeGroupBD,beforeGroupsContact);
     //Set<GroupData> beforeDistinctionGroups= distinction(beforeGroupBD,beforeGroupsContact);
@@ -63,35 +63,19 @@ public class AddContactInGroup extends TestBase {
         app.contact().selectGroupFromDropDown(String.valueOf(groups.getId()));
         app.contact().clickOnAdd();
     }
-
-    ContactData contactAfter = app.db().contacts().stream()
-            .sorted(Comparator.comparingInt(ContactData::getId))
-            .findFirst()
-            .get();
+    ContactData contactAfter = app.db().contacts().stream().filter(x->id.equals(x.getId())).findAny().orElse(null);
+        //    .sorted(Comparator.comparingInt(ContactData::getId))
+         //   .filter()
+        //    .get();
     Groups afterGroupsContact = contactAfter.getGroups();
       beforeGroupsContact.addAll(afterDistinctionGroups);
       assertThat(afterGroupsContact.size(),equalTo(beforeGroupsContact.size()));
       assertThat(afterGroupsContact,equalTo(beforeGroupsContact));
+    System.out.println(beforeGroupsContact);
+    System.out.println(afterGroupsContact);
 
   }
 
-
-  public static Set<Integer> Difference(Set<Integer> set1, Set<Integer> set2) {
-    Set<Integer> dbGroups = new HashSet<Integer>(set1);
-    dbGroups.addAll(set2);
-    Set<Integer> groups = new HashSet<Integer>(set1);
-    groups.retainAll(set2);
-    dbGroups.removeAll(groups);
-    return dbGroups;
-  }
-  public static Groups Difference2(Groups set1, Groups set2) {
-    Groups dbGroups =(set1);
-    dbGroups.addAll(set2);
-    Groups groups = (set1);
-    groups.retainAll(set2);
-    dbGroups.removeAll(groups);
-    return dbGroups;
-  }
   public static Groups distinction(Groups set1, Groups set2) {
     Set<GroupData>  dbGroups = new HashSet<GroupData>(set1);
     dbGroups.addAll(set2);
