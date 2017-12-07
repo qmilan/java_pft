@@ -38,40 +38,35 @@ public class AddContactInGroup extends TestBase {
   @Test
   public void testAddContactInGroup (){
     Contacts beforeContacts = app.db().contacts();
-    Groups beforeGroups = app.db().groups();
-
-    ContactData selectContact = beforeContacts.iterator().next();
-    Groups groupsOfContact = selectContact.getGroups();
-
-    Set<Integer> beforeIdsGroups = beforeGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> beforeIdsGroupsContact = groupsOfContact.stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> diffGroups = Difference(beforeIdsGroups,beforeIdsGroupsContact);
-    System.out.println(diffGroups);
-    if (diffGroups.size()==0) {
+    Groups beforeGroupBD = app.db().groups();
+    ContactData contact = beforeContacts.iterator().next();
+    Groups beforeGroupsContact = contact.getGroups();
+    Groups beforeDistinctionGroups= distinction(beforeGroupBD,beforeGroupsContact);
+    //Set<GroupData> beforeDistinctionGroups= distinction(beforeGroupBD,beforeGroupsContact);
+    System.out.println(beforeGroupBD);
+    System.out.println("GC:"+beforeGroupsContact);
+    System.out.println("DIS:"+beforeDistinctionGroups);
+    if (beforeDistinctionGroups.size()==0) {
       app.goTo().groupPage();
-      app.group().create(new GroupData().withName("Check"));
-      }
-    Set<Integer> afterSetGroups = app.db().groups().stream().map(g -> g.getId()).collect(Collectors.toSet());
-    Set<Integer> setGroupsafter = Difference(afterSetGroups,beforeIdsGroupsContact);
-      for ( Integer groups :  setGroupsafter ) {
-        app.goTo().homePage();
-        app.contact().selectAllFromDropDown();
-        app.contact().selectContactById(selectContact.getId());
-        app.contact().selectGroupFromDropDown(String.valueOf(groups));
-        app.contact().clickOnAdd();
-       // app.contact().clickOnGoToGroup(groups);
-      //  System.out.println(groups);
+      app.group().create(new GroupData().withName("test_zero"));
     }
-    Groups afterGroups = app.db().groups();
-    Contacts afterContacts = app.db().contacts();
-      for (ContactData all : afterContacts){
-        if (all.getId()==selectContact.getId()){
-          Set<Integer> setAfterGroups = afterGroups.stream().map(g -> g.getId()).collect(Collectors.toSet());
-          System.out.println(setAfterGroups);
-          assertThat(setAfterGroups.size(), equalTo(beforeIdsGroupsContact.size() + setGroupsafter.size()));
-         // assertThat(afterGroups, equalTo(beforeGroups.withAdded()));
-        }
-      }
+    Groups afterGroupBD = app.db().groups();
+    Groups afterGroupsContact = contact.getGroups();
+    Groups afterDistinctionGroups= distinction(afterGroupBD,afterGroupsContact);
+      for (GroupData groups : afterDistinctionGroups) {
+        app.goTo().homePage();
+       //app.contact().selectAllFromDropDown();
+        app.contact().selectContactById(contact.getId());
+        app.contact().selectGroupFromDropDown(String.valueOf(groups.getId()));
+        app.contact().clickOnAdd();
+    }
+
+    System.out.println("AFTER GROUPS:"+afterGroupsContact);
+    for (GroupData diffGroups : afterDistinctionGroups) {
+      GroupData addGroups = new GroupData().withId(diffGroups.getId()).withName(diffGroups.getName())
+              .withHeader(diffGroups.getHeader()).withFooter(diffGroups.getFooter());
+      assertThat(afterGroupsContact, equalTo(beforeGroupsContact.withAdded(addGroups)));
+    }
   }
 
 
@@ -83,4 +78,21 @@ public class AddContactInGroup extends TestBase {
     dbGroups.removeAll(groups);
     return dbGroups;
   }
+  public static Groups Difference2(Groups set1, Groups set2) {
+    Groups dbGroups =(set1);
+    dbGroups.addAll(set2);
+    Groups groups = (set1);
+    groups.retainAll(set2);
+    dbGroups.removeAll(groups);
+    return dbGroups;
+  }
+  public static Groups distinction(Groups set1, Groups set2) {
+    Set<GroupData>  dbGroups = new HashSet<GroupData>(set1);
+    dbGroups.addAll(set2);
+    Set<GroupData>   groups = new HashSet<GroupData>(set1);
+    groups.retainAll(set2);
+    dbGroups.removeAll(groups);
+    return new Groups (dbGroups);
+  }
+
 }

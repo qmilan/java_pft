@@ -160,6 +160,4 @@ public class ContactHelper extends BaseHelper {
             .withMobile(mobile).withAddress(address).withWork(work).withEmail(email).withEmail2(email2).withEmail3(email3);
   }
 
-
-
 }
