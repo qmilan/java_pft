@@ -37,10 +37,13 @@ public class AddContactInGroup extends TestBase {
   }
   @Test
   public void testAddContactInGroup (){
+
+    ContactData contactBefore = app.db().contacts().stream().sorted(Comparator.comparingInt(ContactData::getId)).findFirst().get();
+
     Contacts beforeContacts = app.db().contacts();
     Groups beforeGroupBD = app.db().groups();
-    ContactData contact = beforeContacts.iterator().next();
-    Groups beforeGroupsContact = contact.getGroups();
+
+    Groups beforeGroupsContact = contactBefore.getGroups();
     Groups beforeDistinctionGroups= distinction(beforeGroupBD,beforeGroupsContact);
     //Set<GroupData> beforeDistinctionGroups= distinction(beforeGroupBD,beforeGroupsContact);
     System.out.println(beforeGroupBD);
@@ -51,22 +54,25 @@ public class AddContactInGroup extends TestBase {
       app.group().create(new GroupData().withName("test_zero"));
     }
     Groups afterGroupBD = app.db().groups();
-    Groups afterGroupsContact = contact.getGroups();
-    Groups afterDistinctionGroups= distinction(afterGroupBD,afterGroupsContact);
+    //Groups afterGroupsContact = contact.getGroups();
+    Groups afterDistinctionGroups= distinction(afterGroupBD,beforeGroupsContact);
       for (GroupData groups : afterDistinctionGroups) {
         app.goTo().homePage();
        //app.contact().selectAllFromDropDown();
-        app.contact().selectContactById(contact.getId());
+        app.contact().selectContactById(contactBefore.getId());
         app.contact().selectGroupFromDropDown(String.valueOf(groups.getId()));
         app.contact().clickOnAdd();
     }
 
-    System.out.println("AFTER GROUPS:"+afterGroupsContact);
-    for (GroupData diffGroups : afterDistinctionGroups) {
-      GroupData addGroups = new GroupData().withId(diffGroups.getId()).withName(diffGroups.getName())
-              .withHeader(diffGroups.getHeader()).withFooter(diffGroups.getFooter());
-      assertThat(afterGroupsContact, equalTo(beforeGroupsContact.withAdded(addGroups)));
-    }
+    ContactData contactAfter = app.db().contacts().stream()
+            .sorted(Comparator.comparingInt(ContactData::getId))
+            .findFirst()
+            .get();
+    Groups afterGroupsContact = contactAfter.getGroups();
+      beforeGroupsContact.addAll(afterDistinctionGroups);
+
+      assertThat(afterGroupsContact,equalTo(beforeGroupsContact));
+
   }
 
 
