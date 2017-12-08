@@ -43,13 +43,9 @@ public class AddContactInGroup extends TestBase {
     ContactData contactBefore = app.db().contacts().iterator().next();
     Integer id = contactBefore.getId();
             //app.db().contacts().stream().sorted(Comparator.comparingInt(ContactData::getId)).findFirst().get();
-    Contacts beforeContacts = app.db().contacts();
     Groups beforeGroupBD = app.db().groups();
     Groups beforeGroupsContact = contactBefore.getGroups();
     Groups beforeDistinctionGroups= distinction(beforeGroupBD,beforeGroupsContact);
-    System.out.println(beforeGroupBD);
-    System.out.println("GC:"+beforeGroupsContact);
-    System.out.println("DIS:"+beforeDistinctionGroups);
     if (beforeDistinctionGroups.size()==0) {
       app.goTo().groupPage();
       app.group().create(new GroupData().withName("test_zero"));
@@ -70,8 +66,6 @@ public class AddContactInGroup extends TestBase {
       beforeGroupsContact.addAll(afterDistinctionGroups);
       assertThat(afterGroupsContact.size(),equalTo(beforeGroupsContact.size()));
       assertThat(afterGroupsContact,equalTo(beforeGroupsContact));
-    System.out.println(beforeGroupsContact);
-    System.out.println(afterGroupsContact);
 
   }
 

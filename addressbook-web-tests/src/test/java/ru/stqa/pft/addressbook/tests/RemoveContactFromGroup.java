@@ -3,7 +3,6 @@ package ru.stqa.pft.addressbook.tests;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
-import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
@@ -12,7 +11,6 @@ import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static ru.stqa.pft.addressbook.appmanager.GroupHelper.distinction;
 
 public class RemoveContactFromGroup extends TestBase {
   @BeforeMethod
@@ -29,14 +27,12 @@ public class RemoveContactFromGroup extends TestBase {
               .withEmail("test@test.com").withEmail2("test1@test.com")
               .withEmail3("test2@test.com").withMobile("89501234567").withHome("123445")
               .withWork("3412111").inGroup(idGroups);
-//      if (!listsGroupFromBD.stream().anyMatch(g -> g.getName().equals(groupName))) {
       app.goTo().contactCreationPage();
       app.contact().create(contact, true);
     }
   }
   @Test
   public void testRemoveContactFromGroup (){
-
     ContactData contactBefore = app.db().contacts().iterator().next();
     Integer id = contactBefore.getId();
     Groups beforeGroupBD = app.db().groups();
@@ -68,7 +64,6 @@ public class RemoveContactFromGroup extends TestBase {
     betweenGroupsContact.removeAll(afterDistinctionGroups);
     assertThat(afterGroupsContact.size(),equalTo(betweenGroupsContact.size()));
     assertThat(afterGroupsContact,equalTo(betweenGroupsContact));
-
   }
 
   public static Groups distinction(Groups set1, Groups set2) {
