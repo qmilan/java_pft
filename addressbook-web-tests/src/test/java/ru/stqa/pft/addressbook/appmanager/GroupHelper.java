@@ -102,5 +102,12 @@ public class GroupHelper extends BaseHelper {
   }
 
 
-
+  public static Groups distinction(Groups set1, Groups set2) {
+    Set<GroupData> dbGroups = new HashSet<GroupData>(set1);
+    dbGroups.addAll(set2);
+    Set<GroupData>   groups = new HashSet<GroupData>(set1);
+    groups.retainAll(set2);
+    dbGroups.removeAll(groups);
+    return new Groups (dbGroups);
+  }
 }

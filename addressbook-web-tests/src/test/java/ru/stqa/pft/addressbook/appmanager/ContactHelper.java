@@ -49,9 +49,9 @@ public class ContactHelper extends BaseHelper {
     }
   }
 
-  public void selectAllFromDropDown() {
+  public void selectAllFromDropDown(String index) {
     //wd.findElements(By.name("to_group")).get(index).click();
-    new Select(wd.findElement(By.name("group"))).selectByVisibleText("[all]");
+    new Select(wd.findElement(By.name("group"))).selectByValue(index);
   }
 
   public void selectGroupFromDropDown(String index) {
@@ -60,6 +60,9 @@ public class ContactHelper extends BaseHelper {
   }
   public void clickOnAdd() {
     click(By.name("add"));
+  }
+  public void clickRemove() {
+    click(By.name("remove"));
   }
   public void clickOnGoToGroup(int id) {
     wd.findElement(By.xpath("//a[@href='./?group="+id+"']")).click();

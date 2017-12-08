@@ -10,6 +10,8 @@ import ru.stqa.pft.addressbook.model.Contacts;
 import ru.stqa.pft.addressbook.model.GroupData;
 import ru.stqa.pft.addressbook.model.Groups;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -49,6 +51,7 @@ public class TestBase {
               .collect(Collectors.toSet())));
     }
   }
+
 }
 
 
