@@ -39,9 +39,20 @@ public class RemoveContactFromGroup extends TestBase {
 
     ContactData contactBefore = app.db().contacts().iterator().next();
     Integer id = contactBefore.getId();
+    Groups beforeGroupBD = app.db().groups();
     Groups beforeGroupsContact = contactBefore.getGroups();
-    if (beforeGroupsContact.size()!=0){
-      beforeGroupsContact.stream().forEach(g->
+    if (beforeGroupsContact.size()==0){
+      beforeGroupBD.stream().forEach(g->
+      {
+        app.goTo().homePage();
+        app.contact().selectContactById(contactBefore.getId());
+        app.contact().selectGroupFromDropDown(String.valueOf(g.getId()));
+        app.contact().clickOnAdd();
+      });
+      }
+    ContactData contactBetween = app.db().contacts().stream().filter(x->id.equals(x.getId())).findAny().orElse(null);
+    Groups BetweenGroupsContact = contactBetween.getGroups();
+    BetweenGroupsContact.stream().forEach(g->
       {
         app.goTo().homePage();
         app.contact().selectAllFromDropDown(String.valueOf(g.getId()));
@@ -49,10 +60,10 @@ public class RemoveContactFromGroup extends TestBase {
         app.contact().clickRemove();
 
       });
-      }
     Groups afterGroupBD = app.db().groups();
     ContactData contactAfter = app.db().contacts().stream().filter(x->id.equals(x.getId())).findAny().orElse(null);
     Groups afterGroupsContact = contactAfter.getGroups();
+
     Groups afterDistinctionGroups= distinction(afterGroupBD,afterGroupsContact);
     beforeGroupsContact.removeAll(afterDistinctionGroups);
     assertThat(afterGroupsContact.size(),equalTo(beforeGroupsContact.size()));
