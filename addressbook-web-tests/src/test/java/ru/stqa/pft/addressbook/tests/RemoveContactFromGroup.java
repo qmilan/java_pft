@@ -51,8 +51,8 @@ public class RemoveContactFromGroup extends TestBase {
       });
       }
     ContactData contactBetween = app.db().contacts().stream().filter(x->id.equals(x.getId())).findAny().orElse(null);
-    Groups BetweenGroupsContact = contactBetween.getGroups();
-    BetweenGroupsContact.stream().forEach(g->
+    Groups betweenGroupsContact = contactBetween.getGroups();
+    betweenGroupsContact.stream().forEach(g->
       {
         app.goTo().homePage();
         app.contact().selectAllFromDropDown(String.valueOf(g.getId()));
@@ -65,9 +65,9 @@ public class RemoveContactFromGroup extends TestBase {
     Groups afterGroupsContact = contactAfter.getGroups();
 
     Groups afterDistinctionGroups= distinction(afterGroupBD,afterGroupsContact);
-    beforeGroupsContact.removeAll(afterDistinctionGroups);
-    assertThat(afterGroupsContact.size(),equalTo(beforeGroupsContact.size()));
-    assertThat(afterGroupsContact,equalTo(beforeGroupsContact));
+    betweenGroupsContact.removeAll(afterDistinctionGroups);
+    assertThat(afterGroupsContact.size(),equalTo(betweenGroupsContact.size()));
+    assertThat(afterGroupsContact,equalTo(betweenGroupsContact));
 
   }
 
