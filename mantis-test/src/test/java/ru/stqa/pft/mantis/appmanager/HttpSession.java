@@ -28,11 +28,16 @@ public class HttpSession {
      HttpPost post = new HttpPost(app.getProperty("web.baseUrl")+"/login_page.php");
      List<NameValuePair> params = new ArrayList<>();
      params.add(new BasicNameValuePair("username",username));
+    // params.add(new BasicNameValuePair("secure_session","on"));
+     app.clickOnSubmitUserName();
+     params.add(new BasicNameValuePair("return","index.php"));
+     HttpPost post2 = new HttpPost(app.getProperty("web.baseUrl")+"/login_password_page.php");
      params.add(new BasicNameValuePair("password",password));
+     app.clickOnSubmitPassword();
      params.add(new BasicNameValuePair("secure_session","on"));
      params.add(new BasicNameValuePair("return","index.php"));
-     post.setEntity(new UrlEncodedFormEntity(params));
-     CloseableHttpResponse response = httpClient.execute(post);
+     post2.setEntity(new UrlEncodedFormEntity(params));
+     CloseableHttpResponse response = httpClient.execute(post2);
      String body = getTextFrom(response);
      return body.contains(String.format("<span class=\"italic\">%s</span>",username));
    }
@@ -49,6 +54,6 @@ public class HttpSession {
     HttpGet get = new HttpGet(app.getProperty("web.baseUrl")+"/index.php");
     CloseableHttpResponse response = httpClient.execute(get);
     String body = getTextFrom(response);
-    return body.contains(String.format("<span class=\"italic\">%s</span>",username));
+    return body.contains(String.format("<a href =\"/mantisbt-2.9.0/account_page.php\">%s</span>",username));
   }
 }

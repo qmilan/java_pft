@@ -1,5 +1,6 @@
 package ru.stqa.pft.mantis.appmanager;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -48,4 +49,12 @@ public class ApplicationManager {
   public String getProperty(String key) {
    return properties.getProperty(key);
   }
+
+  public void clickOnSubmitUserName() {
+    wd.findElement(By.xpath("//form[@id='login-form']/fieldset/input[2]")).click();
+  }
+  public void clickOnSubmitPassword() {
+   // wd.findElement(By.xpath("//form[@id='login-form']/fieldset/input[3]")).click();
+  }
+
 }
