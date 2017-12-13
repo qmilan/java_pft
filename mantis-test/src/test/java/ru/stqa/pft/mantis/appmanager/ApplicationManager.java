@@ -84,4 +84,12 @@ public class ApplicationManager {
     }
     return mailHelper;
   }
+
+  public void clickOnManage() {
+    wd.findElement(By.linkText("управление")).click();
+  }
+
+  public void clickOnManageUsers() {
+    wd.findElement(By.linkText("Управление пользователями")).click();
+  }
 }
