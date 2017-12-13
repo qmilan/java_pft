@@ -18,6 +18,13 @@ public class RegistrationHelper extends BaseHelper{
     click(By.cssSelector("input[value='Зарегистрироваться']"));
   }
 
+  public void starAdmint(String username, String password) {
+    wd.get(app.getProperty("web.baseUrl")+"/login_page.php");
+    type(By.name("username"),username);
+    click(By.cssSelector("input[value='Войти']"));
+    type(By.name("password"),password);
+    click(By.cssSelector("input[value='Войти']"));
+  }
   public void finish(String confirmationLink, String password) {
     wd.get(confirmationLink);
     type(By.name("password"),password);
