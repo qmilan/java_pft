@@ -20,7 +20,8 @@ public class RegistrationHelper extends BaseHelper{
 
   public void finish(String confirmationLink, String password) {
     wd.get(confirmationLink);
-    type(By.xpath("//*[@id=\"login-box\"]/div/div/div[4]/a"),password);
+    type(By.name("password"),password);
+    type(By.name("password_confirm"),password);
     click(By.xpath("//*[@id=\"account-update-form\"]/fieldset/span/button/span"));
   }
 }

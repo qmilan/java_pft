@@ -11,6 +11,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Gradle: org.testng:testng:6.11" level="project" />
     <orderEntry type="library" name="Gradle: org.seleniumhq.selenium:selenium-java:3.7.1" level="project" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-site:1.2.3" level="project" />
     <orderEntry type="library" name="Gradle: org.hamcrest:java-hamcrest:2.0.0.0" level="project" />
     <orderEntry type="library" name="Gradle: commons-net:commons-net:3.6" level="project" />
     <orderEntry type="library" name="Gradle: org.subethamail:subethasmtp:3.1.7" level="project" />
