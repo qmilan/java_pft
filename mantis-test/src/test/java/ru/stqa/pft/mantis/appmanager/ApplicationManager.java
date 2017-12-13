@@ -92,4 +92,8 @@ public class ApplicationManager {
   public void clickOnManageUsers() {
     wd.findElement(By.linkText("Управление пользователями")).click();
   }
+
+  public void clickUser(String user) {
+    wd.findElement(By.linkText(user)).click();
+  }
 }
