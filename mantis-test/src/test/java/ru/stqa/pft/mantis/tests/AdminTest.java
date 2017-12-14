@@ -34,6 +34,9 @@ public class AdminTest extends TestBase {
     app.clickOnManage();
     app.clickOnManageUsers();
     app.clickUser(user);
+    app.resetPasswordOfUser();
+    List<MailMessage> mailResetMessages = app.mail().waitForMail(2, 10000);
+    String confirmationLinkReset = findConfirmationLink(mailMessages, email);
   }
 
   private  String findConfirmationLink(List<MailMessage> mailMessages, String email) {

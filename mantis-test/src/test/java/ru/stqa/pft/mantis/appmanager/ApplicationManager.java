@@ -96,4 +96,9 @@ public class ApplicationManager {
   public void clickUser(String user) {
     wd.findElement(By.linkText(user)).click();
   }
+
+  public void resetPasswordOfUser() {
+    wd.findElement(By.xpath("//form[@id='manage-user-reset-form']/fieldset/span/input")).click();
+
+  }
 }
