@@ -2,6 +2,7 @@ package ru.stqa.pft.mantis.appmanager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -12,6 +13,8 @@ import org.openqa.selenium.remote.SessionId;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
@@ -100,5 +103,16 @@ public class ApplicationManager {
   public void resetPasswordOfUser() {
     wd.findElement(By.xpath("//form[@id='manage-user-reset-form']/fieldset/span/input")).click();
 
+  }
+  public List<String> all() {
+//    Set<ContactData> contacts = new HashSet<ContactData>(); //создание списка
+    List<WebElement> elements = wd.findElements(By.xpath("//tbody/tr"));
+    List<String> list = new ArrayList<String>();
+    for (int i = 1; i < elements.size(); i++) {
+      List<WebElement> cells = elements.get(i).findElements(By.tagName("td"));
+      String firstname = cells.get(0).getText();
+      list.add(firstname);
+    }
+    return list;
   }
 }

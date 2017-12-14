@@ -1,5 +1,7 @@
 package ru.stqa.pft.mantis.tests;
 
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -34,16 +36,17 @@ public class AdminTest extends TestBase {
             app.getProperty("web.adminPassword"));
     app.clickOnManage();
     app.clickOnManageUsers();
-    app.clickUser(user);
+    String userLogin = app.all().iterator().next();
+    app.clickUser(userLogin);
     app.resetPasswordOfUser();
     List<MailMessage> mailResetMessages = app.mail().waitForMail(3, 10000);
     List<MailMessage> msgs = findResetConfigrmationMail(mailResetMessages);
 
-    String confirmationLinkReset = findConfirmationLink(msgs, email);
+    String confirmationLinkReset = findConfirmationLink(msgs, userLogin);
     String newpassword = "password1";
     app.registration().finish(confirmationLinkReset, newpassword);
-    app.newSession().login(user, newpassword);
-    assertTrue(app.newSession().login(user, newpassword));
+    app.newSession().login(userLogin, newpassword);
+    assertTrue(app.newSession().login(userLogin, newpassword));
   }
 
   private List<MailMessage> findResetConfigrmationMail(List<MailMessage> messages) {
@@ -55,11 +58,12 @@ public class AdminTest extends TestBase {
   }
 
   private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
-    MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).
+    MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.contains(email)).
             findFirst().get();
     VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
     return regex.getText(mailMessage.text);
   }
+
 
   @AfterMethod(alwaysRun = true)
   public void stopMailServer() {
