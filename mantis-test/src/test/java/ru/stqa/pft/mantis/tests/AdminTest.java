@@ -20,12 +20,12 @@ public class AdminTest extends TestBase {
   }
 
   @Test
-  public void testAdmin () throws IOException, MessagingException {
+  public void testAdmin() throws IOException, MessagingException {
     long now = System.currentTimeMillis();
-    String email = String.format("user%s@localhost",now);
-    String user = String.format("user%s",now);
+    String email = String.format("user%s@localhost", now);
+    String user = String.format("user%s", now);
     String password = "password";
-    app.registration().start (user, email);
+    app.registration().start(user, email);
     List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
     app.registration().finish(confirmationLink, password);
@@ -42,10 +42,11 @@ public class AdminTest extends TestBase {
     String confirmationLinkReset = findConfirmationLink(msgs, email);
     String newpassword = "password1";
     app.registration().finish(confirmationLinkReset, newpassword);
-    assertTrue(app.newSession().login(user,newpassword));
+    app.newSession().login(user, newpassword);
+    assertTrue(app.newSession().login(user, newpassword));
   }
 
-  private List<MailMessage> findResetConfigrmationMail(List<MailMessage> messages){
+  private List<MailMessage> findResetConfigrmationMail(List<MailMessage> messages) {
     List<MailMessage> msg = messages
             .stream()
             .filter(m -> m.subject.toLowerCase().contains("password reset"))
@@ -53,12 +54,13 @@ public class AdminTest extends TestBase {
     return msg;
   }
 
-  private  String findConfirmationLink(List<MailMessage> mailMessages, String email) {
+  private String findConfirmationLink(List<MailMessage> mailMessages, String email) {
     MailMessage mailMessage = mailMessages.stream().filter((m) -> m.to.equals(email)).
             findFirst().get();
     VerbalExpression regex = VerbalExpression.regex().find("http://").nonSpace().oneOrMore().build();
     return regex.getText(mailMessage.text);
   }
+
   @AfterMethod(alwaysRun = true)
   public void stopMailServer() {
     app.mail().stop();
