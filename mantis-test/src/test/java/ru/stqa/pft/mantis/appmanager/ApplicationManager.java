@@ -25,7 +25,7 @@ public class ApplicationManager {
   private RegistrationHelper registrationHelper;
   private FtpHelper ftp;
   private MailHelper mailHelper;
-
+  private SoapHelper SoapHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -114,5 +114,11 @@ public class ApplicationManager {
       list.add(firstname);
     }
     return list;
+  }
+  public SoapHelper soap () {
+    if (SoapHelper==null) {
+      SoapHelper = new SoapHelper(this);
+    }
+    return SoapHelper;
   }
 }
