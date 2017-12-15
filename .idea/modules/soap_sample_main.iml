@@ -4,7 +4,6 @@
     <output url="file://$MODULE_DIR$/../../soap_sample/out/production/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../soap_sample/src/main">
-      <sourceFolder url="file://$MODULE_DIR$/../../soap_sample/src/main" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../soap_sample/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../soap_sample/src/main/resources" type="java-resource" />
     </content>
