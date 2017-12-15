@@ -21,7 +21,7 @@ public class AdminTest extends TestBase {
     app.mail().start();
   }
 
-  @Test
+  @Test (enabled = false)
   public void testAdmin() throws IOException, MessagingException {
     long now = System.currentTimeMillis();
     String email = String.format("user%s@localhost", now);
@@ -31,7 +31,6 @@ public class AdminTest extends TestBase {
     List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
     app.registration().finish(confirmationLink, password);
-    // assertTrue(app.newSession().login(user,password));
     app.registration().startAdmin(app.getProperty("web.adminLogin"),
             app.getProperty("web.adminPassword"));
     app.clickOnManage();
