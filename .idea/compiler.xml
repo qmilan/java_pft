@@ -8,6 +8,8 @@
       <module name="mantis-test_test" target="1.8" />
       <module name="sandbox_main" target="1.8" />
       <module name="sandbox_test" target="1.8" />
+      <module name="soap_sample_main" target="1.8" />
+      <module name="soap_sample_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
