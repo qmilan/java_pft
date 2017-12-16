@@ -21,7 +21,7 @@ public class TestBase {
   }
   public boolean isIssueOpen(int issueId) throws IOException {
     String status = getStatusById(issueId);
-    if (status.equals("resolved") || status.equals("closed")) {
+    if (status.equals("Resolved") || status.equals("Closed")) {
       return true;
     } else {
       return false;
@@ -29,7 +29,7 @@ public class TestBase {
   }
   public String getStatusById(int issueId) throws IOException {
     String json =  getExecutor().execute(Request.
-            Get(String.format("http://demo.bugify.com/issues/%s.json",issueId)))
+            Get(String.format("http://demo.bugify.com/api/issues/%s.json",issueId)))
             .returnContent().toString();
       JsonElement parsed = new JsonParser().parse(json);
       JsonElement issues = parsed.getAsJsonObject().get("issues");
