@@ -12,21 +12,22 @@ import java.rmi.RemoteException;
 import java.util.Set;
 
 public class SoapTests extends TestBase {
-  @Test (enabled = true)
+  @Test(enabled = true)
   public void testGetProjects() throws MalformedURLException, ServiceException, RemoteException {
-    skipIfNotFixed(3);
+    skipIfNotFixed(1);
     Set<Project> projects = app.soap().getProjects();
     System.out.println(projects.size());
-    for (Project project : projects){
+    for (Project project : projects) {
       System.out.println(project.getName());
     }
   }
-  @Test (enabled = false)
-public void testCreateIssue () throws RemoteException, ServiceException, MalformedURLException {
+
+  @Test(enabled = false)
+  public void testCreateIssue() throws RemoteException, ServiceException, MalformedURLException {
     Set<Project> projects = app.soap().getProjects();
     Issue issue = new Issue().withSummary("Test issue").withDescription("Test issue description")
             .withProject(projects.iterator().next());
-    Issue created =  app.soap().addIssue(issue);
-    Assert.assertEquals(issue.getSummary(),created.getSummary());
+    Issue created = app.soap().addIssue(issue);
+    Assert.assertEquals(issue.getSummary(), created.getSummary());
   }
 }

@@ -27,27 +27,30 @@ public class TestBase {
   public void setUp() throws Exception {
     app.init();
     app.ftp().upload(new File("src/test/resources/config_inc.php"),
-            "config_inc.php","config_inc.php.bak");
+            "config_inc.php", "config_inc.php.bak");
   }
+
   public boolean isIssueOpen(int issueId) throws RemoteException, ServiceException, MalformedURLException {
     String status = app.soap().getStatusById(issueId);
-    if (status.equals("resolved")||status.equals("closed")){
+    if (status.equals("resolved") || status.equals("closed")) {
       return true;
     } else {
       return false;
     }
   }
+
   public void skipIfNotFixed(int issueId) throws RemoteException, ServiceException, MalformedURLException {
-    if (isIssueOpen(issueId)==true) {
+    if (isIssueOpen(issueId) == true) {
       System.out.println("Ignored because of issue /mantisbt-2.9.0/view.php?id=" +
-                       + issueId +
+              +issueId +
               "Please change status of issue and run test again.");
       throw new SkipException("Ignored because of issue " + issueId);
     }
   }
+
   @AfterSuite
   public void tearDown() throws IOException {
-    app.ftp().restore("config_inc.php.bak","config_inc.php");
+    app.ftp().restore("config_inc.php.bak", "config_inc.php");
     app.stop();
   }
 
