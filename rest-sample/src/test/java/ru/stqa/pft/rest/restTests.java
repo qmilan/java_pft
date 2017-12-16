@@ -30,7 +30,7 @@ public class restTests {
     return null;
   }
   private Executor getExecutor() {
-    return Executor.newInstance().auth(" 28accbe43ea112d9feb328d2c00b3eed==","");
+    return Executor.newInstance().auth("28accbe43ea112d9feb328d2c00b3eed", "");
 
   }
   private int createIssue(Issue newIssue) {
