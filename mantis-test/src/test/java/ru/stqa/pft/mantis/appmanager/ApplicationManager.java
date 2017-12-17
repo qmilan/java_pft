@@ -26,6 +26,7 @@ public class ApplicationManager {
   private FtpHelper ftp;
   private MailHelper mailHelper;
   private SoapHelper SoapHelper;
+  private UserHelper userHelper;
 
   public ApplicationManager(String browser) {
     this.browser = browser;
@@ -88,24 +89,7 @@ public class ApplicationManager {
     return mailHelper;
   }
 
-  public void clickOnManage() {
-    wd.findElement(By.linkText("управление")).click();
-  }
-
-  public void clickOnManageUsers() {
-    wd.findElement(By.linkText("Управление пользователями")).click();
-  }
-
-  public void clickUser(String user) {
-    wd.findElement(By.linkText(user)).click();
-  }
-
-  public void resetPasswordOfUser() {
-    wd.findElement(By.xpath("//form[@id='manage-user-reset-form']/fieldset/span/input")).click();
-
-  }
   public List<String> all() {
-//    Set<ContactData> contacts = new HashSet<ContactData>(); //создание списка
     List<WebElement> elements = wd.findElements(By.xpath("//tbody/tr"));
     List<String> list = new ArrayList<String>();
     for (int i = 1; i < elements.size(); i++) {
@@ -121,4 +105,11 @@ public class ApplicationManager {
     }
     return SoapHelper;
   }
+  public UserHelper user() {
+    if (userHelper == null) {
+      userHelper = new UserHelper(this);
+    }
+    return userHelper;
+  }
+
 }

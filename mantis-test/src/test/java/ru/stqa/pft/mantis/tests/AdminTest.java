@@ -21,31 +21,20 @@ public class AdminTest extends TestBase {
     app.mail().start();
   }
 
-  @Test (enabled = false)
+  @Test
   public void testAdmin() throws IOException, MessagingException {
-    long now = System.currentTimeMillis();
-    String email = String.format("user%s@localhost", now);
-    String user = String.format("user%s", now);
-    String password = "password";
-    app.registration().start(user, email);
-    List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
-    String confirmationLink = findConfirmationLink(mailMessages, email);
-    app.registration().finish(confirmationLink, password);
-    app.registration().startAdmin(app.getProperty("web.adminLogin"),
+    app.user().startAdmin(app.getProperty("web.adminLogin"),
             app.getProperty("web.adminPassword"));
-    app.clickOnManage();
-    app.clickOnManageUsers();
+    app.user().clickOnManage();
+    app.user().clickOnManageUsers();
     String userLogin = app.all().iterator().next();
-    app.clickUser(userLogin);
-    app.resetPasswordOfUser();
-    List<MailMessage> mailResetMessages = app.mail().waitForMail(3, 10000);
+    app.user().clickUser(userLogin);
+    app.user().resetPasswordOfUser();
+    List<MailMessage> mailResetMessages = app.mail().waitForMail(1, 10000);
     List<MailMessage> msgs = findResetConfigrmationMail(mailResetMessages);
-
     String confirmationLinkReset = findConfirmationLink(msgs, userLogin);
-    String newpassword = "password1";
-    app.registration().finish(confirmationLinkReset, newpassword);
-    app.newSession().login(userLogin, newpassword);
-    assertTrue(app.newSession().login(userLogin, newpassword));
+    app.user().finish(confirmationLinkReset, app.getProperty("web.newUserPassword"));
+    assertTrue(app.newSession().login(userLogin, app.getProperty("web.newUserPassword")));
   }
 
   private List<MailMessage> findResetConfigrmationMail(List<MailMessage> messages) {

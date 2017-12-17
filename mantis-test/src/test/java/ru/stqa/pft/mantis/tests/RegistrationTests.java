@@ -25,10 +25,10 @@ public void startMailServer() {
     String email = String.format("user%s@localhost",now);
     String user = String.format("user%s",now);
     String password = "password";
-    app.registration().start (user, email);
+    app.user().start (user, email);
     List<MailMessage> mailMessages = app.mail().waitForMail(2, 10000);
     String confirmationLink = findConfirmationLink(mailMessages, email);
-    app.registration().finish(confirmationLink, password);
+    app.user().finish(confirmationLink, password);
      assertTrue(app.newSession().login(user,password));
   }
 
