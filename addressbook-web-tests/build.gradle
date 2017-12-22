@@ -34,7 +34,4 @@ task testContacts(type: Test) {
         systemProperty 'target', "${target}"
     }
 }
-test {
-    useTestNG()
-}
 
