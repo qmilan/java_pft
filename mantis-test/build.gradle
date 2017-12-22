@@ -27,5 +27,8 @@ test  {
         systemProperty 'target', "${target}"
     }
 }
+test {
+    useTestNG()
+}
 
 
