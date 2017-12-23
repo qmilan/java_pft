@@ -37,10 +37,10 @@ public class ApplicationManager {
   }
 
   public void init() throws IOException {
-    String target = System.getProperty("target","local");
-    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target))));
+    String target = System.getProperty("target", "local");
+    properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties", target))));
     dbHelper = new DbHelper();
-    if ("".equals(properties.getProperty("selenium.server"))){
+    if ("".equals(properties.getProperty("selenium.server"))) {
       if (browser.equals(BrowserType.FIREFOX)) {
         wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
       } else if (browser.equals(BrowserType.CHROME)) {
@@ -48,11 +48,11 @@ public class ApplicationManager {
       } else if (browser.equals(BrowserType.IE)) {
         wd = new InternetExplorerDriver();
       }
-    }else {
+    } else {
       DesiredCapabilities capabilities = new DesiredCapabilities();
       capabilities.setBrowserName(browser);
       capabilities.setPlatform(Platform.WIN10);
-     wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")),capabilities);
+      wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), capabilities);
     }
 
     wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
@@ -65,7 +65,8 @@ public class ApplicationManager {
 
 
   }
-  public DbHelper db () {
+
+  public DbHelper db() {
     return dbHelper;
   }
 
