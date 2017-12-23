@@ -1,7 +1,6 @@
 package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -40,7 +39,7 @@ public class ApplicationManager {
     String target = System.getProperty("target","local");
     properties.load(new FileReader(new File(String.format("src/test/resources/%s.properties",target))));
     dbHelper = new DbHelper();
-    if (properties.getProperty("selenium.server").equals("")) {
+    if ("".equals(properties.getProperty("selenium.server"))){
       if (browser.equals(BrowserType.FIREFOX)) {
         wd = new FirefoxDriver(new FirefoxOptions().setLegacy(true));
       } else if (browser.equals(BrowserType.CHROME)) {
@@ -48,11 +47,10 @@ public class ApplicationManager {
       } else if (browser.equals(BrowserType.IE)) {
         wd = new InternetExplorerDriver();
       }
-    } else {
-      DesiredCapabilities a = new DesiredCapabilities();
-      a.setBrowserName(browser);
-      a.setPlatform(Platform.LINUX);
-      wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")), a);
+    }else {
+      DesiredCapabilities capabilities = new DesiredCapabilities();
+      capabilities.setBrowserName(browser);
+     wd = new RemoteWebDriver(new URL(properties.getProperty("selenium.server")),capabilities);
     }
 
     wd.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
